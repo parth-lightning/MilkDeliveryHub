@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Login - DairyDash Connect{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-content">
+                <h1>Customer Login</h1>
+                <p>Log in to your customer account to manage your milk deliveries.</p>
+            </div>
+            <div class="auth-form">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form method="post" action="/login_customer">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="1234567890" required pattern="[0-9]{10}" maxlength="10" minlength="10" title="Please enter a 10-digit mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="/register_customer">Register as Customer</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

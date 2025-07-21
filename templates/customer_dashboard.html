@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Dashboard - DairyDash Connect{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Customer Dashboard</h1>
+            <p>Welcome, {{ customer.name }}</p>
+            <a href="/logout" class="btn btn-secondary">Logout</a>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="dashboard-nav">
+                <a href="/milk_preference" class="nav-item">
+                    <div class="nav-icon">📝</div>
+                    <span>Milk Preferences</span>
+                </a>
+                <a href="/calendar_view" class="nav-item">
+                    <div class="nav-icon">📅</div>
+                    <span>Calendar View</span>
+                </a>
+                <a href="/update_profile" class="nav-item">
+                    <div class="nav-icon">👤</div>
+                    <span>Update Profile</span>
+                </a>
+                <a href="/payment" class="nav-item">
+                    <div class="nav-icon">💳</div>
+                    <span>Make Payment</span>
+                </a>
+            </div>
+            
+            <div class="dashboard-card">
+                <h2>Your Milkman</h2>
+                <div class="milkman-info">
+                    <p><strong>Name:</strong> {{ milkman_name }}</p>
+                    <p><strong>ID:</strong> {{ customer.milkman_id }}</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-card">
+                <h2>Default Milk Preferences</h2>
+                <div class="preference-info">
+                    <p><strong>Brand:</strong> {{ customer.preferences.brand }}</p>
+                    <p><strong>Quantity:</strong> {{ customer.preferences.quantity }} liter(s)</p>
+                    <a href="/milk_preference" class="btn btn-primary">Modify Preferences</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

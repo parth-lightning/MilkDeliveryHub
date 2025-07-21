@@ -1,0 +1,42 @@
+
+{% extends "base.html" %}
+
+{% block title %}Login - DairyDash Connect{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-content">
+                <h1>Welcome Back</h1>
+                <p>Log in to your DairyDash Connect account to manage your dairy farm.</p>
+            </div>
+            <div class="auth-form">
+                <form method="post" action="/login">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Your email address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Your password" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="remember-forgot">
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="remember">
+                                <span class="checkbox-text">Remember me</span>
+                            </label>
+                            <a href="#" class="forgot-link">Forgot password?</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="/register">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

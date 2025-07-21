@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Milkman Dashboard - DairyDash Connect{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Milkman Dashboard</h1>
+            <form method="get" style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+                <label for="selected_date" style="font-weight: 500;">Select Date:</label>
+                <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}" required>
+                <button type="submit" class="btn btn-primary btn-sm">Show Orders</button>
+            </form>
+            <p>Welcome, {{ milkman.name }}</p>
+            <div class="milkman-id-display">
+                <h3>Your Milkman ID: <span class="highlighted-id">{{ milkman.milkman_id }}</span></h3>
+                <p class="id-hint">Share this ID with your customers so they can connect with you.</p>
+            </div>
+            <a href="/logout" class="btn btn-secondary">Logout</a>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="dashboard-card">
+                <h2>Orders for {{ selected_date }}</h2>
+                {% if orders %}
+                    <div class="orders-table-container">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Address</th>
+                                    <th>Brand</th>
+                                    <th>Quantity (L)</th>
+                                    <th>Notes</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.customer_name }}</td>
+                                    <td>{{ order.address }}</td>
+                                    <td>{{ order.brand }}</td>
+                                    <td>{{ order.quantity }}</td>
+                                    <td>{{ order.notes }}</td>
+                                    <td>{% if order.delivered %}<span style="color: green; font-weight: bold;">Delivered</span>{% else %}Pending{% endif %}</td>
+                                    <td>
+                                        {% if not order.delivered %}
+                                        <form method="post" action="/mark_delivered" style="margin:0;">
+                                            <input type="hidden" name="customer_phone" value="{{ order.phone }}">
+                                            <input type="hidden" name="delivery_date" value="{{ selected_date }}">
+                                            <button type="submit" class="btn btn-primary btn-sm">Mark as Delivered</button>
+                                        </form>
+                                        {% else %}
+                                        <span style="color: green; font-size: 1.5rem;">&#10003;</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="no-orders">No orders for tomorrow yet.</p>
+                {% endif %}
+            </div>
+            
+            <div class="dashboard-card">
+                <h2>Your Customers</h2>
+                {% if customers and customers|length > 0 %}
+                    <div class="orders-table-container">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for customer in customers %}
+                                <tr>
+                                    <td>{{ customer.name }}</td>
+                                    <td>{{ customer.phone }}</td>
+                                    <td>{{ customer.address }}</td>
+                                    <td>{{ customer.email }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>You don't have any connected customers yet. Share your Milkman ID with potential customers so they can connect with you.</p>
+                {% endif %}
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Your UPI QR Code</h2>
+                <form method="post" enctype="multipart/form-data" style="margin-bottom: 1rem;">
+                    <div style="margin-bottom: 1rem;">
+                        <input type="file" name="upi_qr" accept="image/*" required>
+                        <button type="submit" class="btn btn-primary">Upload/Update QR Code</button>
+                    </div>
+                </form>
+                {% if milkman.upi_qr %}
+                    <img src="{{ url_for('static', filename=milkman.upi_qr) if not milkman.upi_qr.startswith('images/') else url_for('static', filename=milkman.upi_qr) }}" alt="UPI QR Code" style="max-width: 250px; display: block; margin: 0 auto;">
+                {% else %}
+                    <p>No UPI QR code uploaded yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

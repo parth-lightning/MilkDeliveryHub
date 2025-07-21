@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Registration - DairyDash Connect{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-content">
+                <h1>Customer Registration</h1>
+                <p>Register as a customer to connect with your local milkman and manage your milk deliveries.</p>
+            </div>
+            <div class="auth-form">
+                <form method="post" action="/register_customer">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Smith" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="1234567890" required pattern="[0-9]{10}" maxlength="10" minlength="10" title="Please enter a 10-digit mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea id="address" name="address" placeholder="Your delivery address" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="milkman_id">Milkman ID</label>
+                        <input type="text" id="milkman_id" name="milkman_id" placeholder="6-digit Milkman ID" required>
+                        <p class="form-hint">Enter the 6-digit ID provided by your milkman</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Create a secure password" required>
+                        <p class="form-hint">Password must be at least 8 characters</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Register as Customer</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="/login_customer">Log in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

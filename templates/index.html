@@ -1,0 +1,56 @@
+
+{% extends "base.html" %}
+
+{% block title %}DairyDash Connect - Smart Dairy Farm Management{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Streamline Your Dairy Farm Operations</h1>
+            <p>Track milk production, manage livestock health, and analyze farm performance with our comprehensive dairy management solution.</p>
+            <a href="/register" class="btn btn-primary">Get Started</a>
+            <a href="/login" class="btn btn-secondary">Login</a>
+        </div>
+        <div class="hero-image">
+            <img src="{{ url_for('static', filename='images/dairy-farm.png') }}" alt="Dairy Farm Management">
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2>Why Choose DairyDash Connect?</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🐄</div>
+                <h3>Livestock Management</h3>
+                <p>Track health records, breeding cycles, and productivity for each animal in your herd.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🥛</div>
+                <h3>Milk Production Tracking</h3>
+                <p>Record and analyze daily milk yield, quality parameters, and production trends.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Performance Analytics</h3>
+                <p>Gain valuable insights with custom reports and visual analytics of your farm data.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💼</div>
+                <h3>Financial Management</h3>
+                <p>Track expenses, sales, and profitability with our easy-to-use financial tools.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <h2>Ready to transform your dairy farm management?</h2>
+        <p>Join hundreds of successful dairy farmers who have streamlined their operations with DairyDash Connect.</p>
+        <a href="/register" class="btn btn-primary">Sign Up Now</a>
+    </div>
+</section>
+{% endblock %}

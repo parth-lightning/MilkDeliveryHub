@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DairyDash Connect{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/">DairyDash Connect</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    {% if session.user %}
+                        {% if session.role == 'milkman' %}
+                            <li><a href="/milkman_dashboard">Dashboard</a></li>
+                        {% elif session.role == 'customer' %}
+                            <li><a href="/customer_dashboard">Dashboard</a></li>
+                        {% else %}
+                            <li><a href="/dashboard">Dashboard</a></li>
+                        {% endif %}
+                        <li><a href="/logout" class="btn btn-secondary">Logout</a></li>
+                    {% else %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle">Login</a>
+                            <div class="dropdown-menu">
+                                <a href="/login">Admin Login</a>
+                                <a href="/login_milkman">Milkman Login</a>
+                                <a href="/login_customer">Customer Login</a>
+                            </div>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle btn btn-primary">Sign Up</a>
+                            <div class="dropdown-menu">
+                                <a href="/register">Admin Sign Up</a>
+                                <a href="/register_milkman">Milkman Sign Up</a>
+                                <a href="/register_customer">Customer Sign Up</a>
+                            </div>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 DairyDash Connect. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

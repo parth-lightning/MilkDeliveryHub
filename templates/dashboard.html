@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard - DairyDash Connect{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome to your Dashboard, {{ user.username }}</h1>
+            <p>{{ user.farm_name }}</p>
+            <a href="/logout" class="btn btn-secondary">Logout</a>
+        </div>
+        <div class="dashboard-content">
+            <div class="dashboard-card">
+                <h2>Get Started</h2>
+                <p>This is a simplified dashboard for the Flask version. In a real implementation, you would see your farm statistics and management options here.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

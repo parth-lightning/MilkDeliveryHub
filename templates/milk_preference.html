@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Milk Preferences - DairyDash Connect{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Milk Preferences</h1>
+            <p>Set your milk delivery preferences here</p>
+            <a href="/customer_dashboard" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="dashboard-card">
+                <h2>Set Milk Delivery</h2>
+                <form method="post" action="/milk_preference">
+                    <div class="form-group">
+                        <label for="brand">Brand</label>
+                        <select id="brand" name="brand" required>
+                            {% for brand in milk_brands %}
+                            <option value="{{ brand }}" {% if brand == customer.preferences.brand %}selected{% endif %}>{{ brand }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity (Liters)</label>
+                        <input type="number" id="quantity" name="quantity" min="0.5" step="0.5" value="{{ customer.preferences.quantity }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Delivery Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Special Notes (Optional)</label>
+                        <textarea id="notes" name="notes" placeholder="Any special instructions"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price per Liter (₹)</label>
+                        <input type="number" id="price" name="price" min="1" step="0.01" value="50" required>
+                    </div>
+                    <div class="form-group checkbox-container">
+                        <input type="checkbox" id="update_default" name="update_default">
+                        <label for="update_default" class="checkbox-text">Update as default preference</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Preference</button>
+                </form>
+            </div>
+            
+            <div class="dashboard-card">
+                <h2>Upcoming Orders</h2>
+                {% if orders %}
+                <div class="orders-table-container">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Brand</th>
+                                <th>Quantity (L)</th>
+                                <th>Notes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for date, order in orders.items() %}
+                            <tr>
+                                <td>{{ date }}</td>
+                                <td>{{ order.brand }}</td>
+                                <td>{{ order.quantity }}</td>
+                                <td>{{ order.notes }}</td>
+                                <td>
+                                    <a href="/cancel_order/{{ date }}" class="btn btn-danger btn-sm">Cancel</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>No upcoming orders. Your milkman will deliver according to your default preferences.</p>
+                {% endif %}
+                <div class="order-note">
+                    <p><strong>Note:</strong> Orders can only be modified or cancelled before 11:59 PM of the day before delivery.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Calendar View - DairyDash Connect{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Calendar View</h1>
+            <p>Track your milk delivery history</p>
+            <a href="/customer_dashboard" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="dashboard-card">
+                <div class="calendar-header">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
+                        <a href="?month={{ prev_month }}&year={{ prev_year }}" class="btn btn-secondary" style="min-width: 2.5rem;">&#8592;</a>
+                        <h2 style="margin: 0;">{{ month_name }} {{ year }}</h2>
+                        <a href="?month={{ next_month }}&year={{ next_year }}" class="btn btn-secondary" style="min-width: 2.5rem;">&#8594;</a>
+                    </div>
+                </div>
+                <div class="calendar">
+                    <div class="calendar-weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <div class="calendar-days">
+                        {% for week in range(0, calendar_data|length, 7) %}
+                            <div class="calendar-week">
+                                {% for day in calendar_data[week:week+7] %}
+                                    <div class="calendar-day {{ day.status }}">
+                                        {% if day.day %}
+                                            <div class="day-number">{{ day.day }}</div>
+                                            {% if day.status != 'not_ordered' and day.status != 'empty' %}
+                                                <div class="day-info">
+                                                    {% if day.order %}
+                                                        {{ day.order.quantity }}L
+                                                    {% else %}
+                                                        Default
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-color delivered"></div>
+                        <div>Delivered</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color ordered"></div>
+                        <div>Ordered (Upcoming)</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color not_ordered"></div>
+                        <div>Not Ordered</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
